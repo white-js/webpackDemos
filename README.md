@@ -15,7 +15,8 @@ npm run dev
 ## Index
 * 1 [入口和出口](#demo1-01-entry-output-source)
 * 2 [动态生成html](#demo2-02-html-source)
-* 2 [使用css-loader](#demo3-03-cssloader-source)
+* 3 [使用css-loader](#demo3-03-cssloader-source)
+* 4 [使用图片](#demo4-04-img-source)
 
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
@@ -159,6 +160,68 @@ body{
 import './index.css'
 ```
 
+## demo4 04-img ([source](https://github.com/white-js/webpackDemos/tree/master/04-img))
+使用loader： url-loader file-loader html-withimg-loader
+
+新增loader配置：
+```javascript
+// 在css和js中使用图片
+{
+    test: /\.(png|gif|jpeg|svg|woff|woff2)$/,
+    use:{
+        loader: 'url-loader',
+        options: {
+            // 超出1096产出图片，否则产出DataURL
+            limit: 1096,
+            // 图片产出目录
+            outputPath: 'images/',
+            // 产出文件bundel.js引入图片的地址
+            publicPath: '/images'
+        }
+    }
+},
+// 在html中使用图片
+{
+    test: /\.html/,
+    use: 'html-withimg-loader'
+}
+```
+js使用图片：
+```javascript
+    // index.js
+    import './index.css'
+    import logo from './logo.png'
+    let jsImg = document.querySelector('#js-img');
+    jsImg.src = logo;
+    jsImg.style.width = '200px';
+    jsImg.style.height = '100px';
+```
+css中使用图片
+````css
+    /* index.css */
+    .css-img{
+        background: url(./logo.png) no-repeat;
+        background-size: cover;
+        height: 100px;
+        width: 200px;
+    }
+````
+html中的代码，和在html中使用图片
+````html
+    <!-- index.html -->
+    <div>
+        js中的图片：
+    </div>
+    <img id="js-img" />
+    <div>
+        css中的图片：
+    </div>
+    <div class="css-img"></div>
+    <div>
+        html中的图片：<br>
+        <img src="./logo.png" style="width: 200px; height: 100px;"/>
+    </div>
+````
 
 
 

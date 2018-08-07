@@ -1,0 +1,6 @@
+.css-img{
+    background: url(./logo.png) no-repeat;
+    background-size: cover;
+    height: 100px;
+    width: 200px;
+}
