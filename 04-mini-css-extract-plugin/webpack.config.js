@@ -1,7 +1,8 @@
 const path = require("path");
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
 /**
- * css的引入
+ * 
  * style-loader css-loader
  * **/
 module.exports = {
@@ -10,7 +11,6 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
     },
-    // 本地服务
     devServer: {
         contentBase: path.resolve(__dirname, 'dist'),
         host: 'localhost',
@@ -18,30 +18,21 @@ module.exports = {
     },
     plugins: [
         new htmlWebpackPlugin({
-            // 入口模板文件
             template: './index.html',
-            // 产出的文件名称
             filename: 'index.html'
+        }),
+        // 给css单独配置目录
+        new miniCssExtractPlugin({
+            filename: 'style.css'
         })
     ],
     module: {
         rules: [
             {
-                // 要转义的对象
                 test: /\.css$/,
-                // 要使用的loader，解析顺序是从右往左
-                use: [{
-                    // 将css代码转为js代码，执行的时候向页面中注入一个style标签
-                    loader: 'style-loader',
-                    // loader的参数
-                    options: {
-                        insertAt: 'top'
-                    }
-                    // 处理css中的路径
-                }, 'css-loader'],
-                // 排除需要转义的目录
+                // 注意这里把之前的style-loader替换为了：miniCssExtractPlugin.loader
+                use: [miniCssExtractPlugin.loader, 'css-loader'],
                 exclude: /node_modules/,
-                // 要转义的目录
                 include: path.resolve(__dirname)
             }
         ]

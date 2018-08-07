@@ -16,7 +16,8 @@ npm run dev
 * 1 [入口和出口](#demo1-01-entry-output-source)
 * 2 [动态生成html](#demo2-02-html-source)
 * 3 [使用css-loader](#demo3-03-cssloader-source)
-* 4 [使用图片](#demo4-04-img-source)
+* 4 [css单独配置目录](#demo4-mini-css-extract-plugin-source)
+* 5 [使用图片](#demo4-04-img-source)
 
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
@@ -160,11 +161,40 @@ body{
 import './index.css'
 ```
 
-## demo4 04-img ([source](https://github.com/white-js/webpackDemos/tree/master/04-img))
+## demo4 04-mini-css-extract-plugin ([source](https://github.com/white-js/webpackDemos/tree/master/04-mini-css-extract-plugin))
+使用插件：mini-css-extract-plugin
+```javascript
+// webpack.config.js
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
+plugins: [
+    new htmlWebpackPlugin({
+        template: './index.html',
+        filename: 'index.html'
+    }),
+    // 给css单独配置目录
+    new miniCssExtractPlugin({
+        filename: 'style.css'
+    })
+],
+module: {
+    rules: [
+        {
+            test: /\.css$/,
+            // 注意这里把之前的style-loader替换为了：miniCssExtractPlugin.loader
+            use: [miniCssExtractPlugin.loader, 'css-loader'],
+            exclude: /node_modules/,
+            include: path.resolve(__dirname)
+        }
+    ]
+}
+```
+
+## demo5 05-img ([source](https://github.com/white-js/webpackDemos/tree/master/05-img))
 使用loader： url-loader file-loader html-withimg-loader
 
 新增loader配置：
 ```javascript
+// webpack.config.js
 // 在css和js中使用图片
 {
     test: /\.(png|gif|jpeg|svg|woff|woff2)$/,
@@ -188,39 +218,39 @@ import './index.css'
 ```
 js使用图片：
 ```javascript
-    // index.js
-    import './index.css'
-    import logo from './logo.png'
-    let jsImg = document.querySelector('#js-img');
-    jsImg.src = logo;
-    jsImg.style.width = '200px';
-    jsImg.style.height = '100px';
+// index.js
+import './index.css'
+import logo from './logo.png'
+let jsImg = document.querySelector('#js-img');
+jsImg.src = logo;
+jsImg.style.width = '200px';
+jsImg.style.height = '100px';
 ```
 css中使用图片
 ````css
-    /* index.css */
-    .css-img{
-        background: url(./logo.png) no-repeat;
-        background-size: cover;
-        height: 100px;
-        width: 200px;
-    }
+/* index.css */
+.css-img{
+    background: url(./logo.png) no-repeat;
+    background-size: cover;
+    height: 100px;
+    width: 200px;
+}
 ````
 html中的代码，和在html中使用图片
 ````html
-    <!-- index.html -->
-    <div>
-        js中的图片：
-    </div>
-    <img id="js-img" />
-    <div>
-        css中的图片：
-    </div>
-    <div class="css-img"></div>
-    <div>
-        html中的图片：<br>
-        <img src="./logo.png" style="width: 200px; height: 100px;"/>
-    </div>
+<!-- index.html -->
+<div>
+    js中的图片：
+</div>
+<img id="js-img" />
+<div>
+    css中的图片：
+</div>
+<div class="css-img"></div>
+<div>
+    html中的图片：<br>
+    <img src="./logo.png" style="width: 200px; height: 100px;"/>
+</div>
 ````
 
 

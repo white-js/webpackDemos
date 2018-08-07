@@ -1,8 +1,8 @@
 const path = require("path");
 const htmlWebpackPlugin = require('html-webpack-plugin');
 /**
- * 创建出入口并引入服务
- * webpack-dev-server
+ * 动态生成html
+ * html-webpack-plugin
  * **/
 module.exports = {
     entry: './index.js',
