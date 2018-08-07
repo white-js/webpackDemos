@@ -16,8 +16,8 @@ npm run dev
 * 1 [入口和出口](#demo1-01-entry-output-source)
 * 2 [动态生成html](#demo2-02-html-source)
 * 3 [使用css-loader](#demo3-03-cssloader-source)
-* 4 [css单独配置目录](#demo4-mini-css-extract-plugin-source)
-* 5 [使用图片](#demo4-04-img-source)
+* 4 [css单独配置目录](#demo4-04-mini-css-extract-plugin-source)
+* 5 [使用图片](#demo5-05-img-source)
 
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
