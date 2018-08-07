@@ -1,0 +1,23 @@
+{
+  "name": "webpackDemos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/white-js/webpackDemos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/white-js/webpackDemos/issues"
+  },
+  "homepage": "https://github.com/white-js/webpackDemos#readme",
+  "devDependencies": {
+    "webpack": "^4.16.5"
+  }
+}
