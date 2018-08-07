@@ -15,6 +15,7 @@ npm run dev
 ## Index
 * 1 [入口和出口](#demo1-01-entry-output-source)
 * 2 [动态生成html](#demo2-02-html-source)
+* 2 [使用css-loader](#demo3-03-cssloader-source)
 
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
@@ -66,7 +67,7 @@ alert('初始化成功')
 </body>
 </html>
 ```
-——————
+
 ## demo2 02-html ([source](https://github.com/white-js/webpackDemos/tree/master/02-html))
 
 在demo1基础上新增了devserver配置和动态生成html文件
@@ -110,5 +111,54 @@ devServer: {
 </body>
 </html>
 ```
+
+## demo3 03-cssLoader ([source](https://github.com/white-js/webpackDemos/tree/master/03-cssLoader))
+
+安装loader
+```bash
+npm i style-loader css-loader -D
+```
+
+新增loader配置
+```javascript
+// webpack.config.js
+module: {
+    rules: [
+        {
+            // 要转义的对象
+            test: /\.css$/,
+            // 要使用的loader，解析顺序是从右往左
+            use: [{
+                // 将css代码转为js代码，执行的时候向页面中注入一个style标签
+                loader: 'style-loader',
+                // loader的参数
+                options: {
+                    insertAt: 'top'
+                }
+                // 处理css中的路径
+            }, 'css-loader'],
+            // 排除需要转义的目录
+            exclude: /node_modules/,
+            // 要转义的目录
+            include: path.resolve(__dirname)
+        }
+    ]
+}
+```
+
+新增css文件
+```css
+/*index.css*/
+body{
+    color: red;
+}
+```
+引入css文件
+```javascript
+// index.js
+import './index.css'
+```
+
+
 
 
