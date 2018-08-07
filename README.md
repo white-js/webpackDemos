@@ -13,6 +13,6 @@ npm run dev
 然后访问：http://localhost:8080/
 
 ## Index
-* 1 [入口](#demo1-01-entry-outputsource)
+* 1 [入口](#demo1-01-entry-output-source)
 
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
