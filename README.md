@@ -21,6 +21,7 @@ npm run dev
 * 6 [使用less](#demo6-06-less-source)
 * 7 [转义ES6、ES7、jsx](#demo7-07-babel-source)
 * 8 [sourceMap](#demo8-08-source-map-source)
+* 9 [css3增加前缀](#demo9-09-postcss-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -325,6 +326,46 @@ devtool: 'eval-source-map',
 console.log('错误输出之前');
 a();
 console.log('错误之后');
+```
+
+## demo9 09-postcss ([source](https://github.com/white-js/webpackDemos/tree/master/09-postcss))
+给css3的样式增加属性前缀
+- Trident内核：主要代表为IE浏览器, 前缀为-ms
+- Gecko内核：主要代表为Firefox, 前缀为-moz
+- Presto内核：主要代表为Opera, 前缀为-o
+- Webkit内核：产要代表为Chrome和Safari, 前缀为-webkit
+
+安装依赖
+```bash
+npm i postcss-loader autoprefixer -D
+```
+```javascript
+// webpack.config.js
+// 使用postcss-loader ,同时手动去创建一个postcss.config.js
+use: [miniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+// postcss.config.js
+module.exports={
+    plugins:[require('autoprefixer')]
+}
+```
+给placeholder修改颜色
+```css
+::placeholder{
+    color: red;
+}
+/* 最终生成结果 */
+::-webkit-input-placeholder{
+    color: red;
+}
+:-ms-input-placeholder{
+    color: red;
+}
+::-ms-input-placeholder{
+    color: red;
+}
+::placeholder{
+    color: red;
+}
 ```
 
 
