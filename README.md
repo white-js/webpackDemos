@@ -19,6 +19,7 @@ npm run dev
 * 4 [css单独配置目录](#demo4-04-mini-css-extract-plugin-source)
 * 5 [使用图片](#demo5-05-img-source)
 * 6 [使用less](#demo6-06-less-source)
+* 7 [转义ES6、ES7、jsx](#demo7-07-babel-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -252,7 +253,7 @@ html中的代码，和在html中使用图片
     <img src="./logo.png" style="width: 200px; height: 100px;"/>
 </div>
 ````
-## demo6 06-img ([source](https://github.com/white-js/webpackDemos/tree/master/06-less))
+## demo6 06-less ([source](https://github.com/white-js/webpackDemos/tree/master/06-less))
 
 使用less，以04-mini-css-extract-plugin为模板修改
 使用loader  less  less-loader
@@ -278,5 +279,32 @@ import './index.less'
 body{
     color: @color;
 }
+```
+## demo7 07-babel ([source](https://github.com/white-js/webpackDemos/tree/master/07-babel))
+安装依赖
+```bash
+npm i babel-core babel-loader babel-preset-env babel-preset-stage-0 babel-preset-react babel-plugin-transform-decorators-legacy -D
+```
+配置文件：
+```javascript
+// module中新增
+{
+    test: /\.jsx?$/,
+    use: [{
+            loader: 'babel-loader',
+            options: {
+                presets: ['env', 'stage-0', 'react'],
+                plugins: ['transform-decorators-legacy']
+            }
+        }
+    ],
+    exclude: /node_modules/,
+    include: path.resolve(__dirname)
+}
+```
+js中使用ES6语法
+```javascript
+const name = 'ES6';
+console.log(name);
 ```
 
