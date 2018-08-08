@@ -308,13 +308,13 @@ js中使用ES6语法
 const name = 'ES6';
 console.log(name);
 ```
-## demo8 08-source-map ([source](https://github.com/white-js/webpackDemos/tree/master/07-source-map))
-使用devtool生成sourcemap映射文件快速定位到错误文件
-devtool参数：
-source-map 把映射文件生成到单独的文件，最完整最慢
-cheap-module-source-map 在一个单独的文件中产生一个不带列映射的Map
-eval-source-map 使用eval打包源文件模块,在同一个文件中生成完整sourcemap
-cheap-module-eval-source-map sourcemap和打包后的JS同行显示，没有映射列
+## demo8 08-source-map ([source](https://github.com/white-js/webpackDemos/tree/master/08-source-map))
+- 使用devtool生成sourcemap映射文件快速定位到错误文件
+- devtool参数：
+- source-map 把映射文件生成到单独的文件，最完整最慢
+- cheap-module-source-map 在一个单独的文件中产生一个不带列映射的Map
+- eval-source-map 使用eval打包源文件模块,在同一个文件中生成完整sourcemap
+- cheap-module-eval-source-map sourcemap和打包后的JS同行显示，没有映射列
 增加配置：
 ```javascript
 // webpack.config.js
