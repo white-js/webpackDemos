@@ -22,6 +22,7 @@ npm run dev
 * 7 [转义ES6、ES7、jsx](#demo7-07-babel-source)
 * 8 [sourceMap](#demo8-08-source-map-source)
 * 9 [css3增加前缀](#demo9-09-postcss-source)
+* 9 [打包第三方类库](#demo10-10-expose-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -367,6 +368,45 @@ module.exports={
     color: red;
 }
 ```
+## demo10 10-expose ([source](https://github.com/white-js/webpackDemos/tree/master/10-expose))
+打包第三方类库的三种方式：
+* 1 直接js中import引入
+```javascript
+// index.js
+import $4 from 'jquery'
+```
+* 2 webpack插件  
+## webpack.ProvidePlugin ([source])(https://webpack.docschina.org/plugins/provide-plugin/)
+```javascript
+// webpack.config.js, 此配置只是把变量添加到当前文件的执行上下文，想要放到window下面，变量需要加上window.
+plugins: [
+    // 方式1
+    new webpack.ProvidePlugin({
+        // 配置全局需要加上window
+        'window.$': 'jquery',
+        '$': 'jquery'
+    })
+]
+```
+* 3 使用expose-loader
+ ## expose-loader ([source])(https://webpack.docschina.org/loaders/expose-loader/)
+```javascript
+// webpack.config.js ， 此配置是讲变量添加到window下
+module: {
+    // 方式二
+    rules: [{
+        test: require.resolve('jquery'),
+        use: [{
+            loader: 'expose-loader',
+            options: '$1'
+        },{
+            loader: 'expose-loader',
+            options: '$2'
+        }]
+    }]
+}
+```
+
 
 
 
