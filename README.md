@@ -375,8 +375,7 @@ module.exports={
 // index.js
 import $4 from 'jquery'
 ```
-* 2 webpack插件  
-## webpack.ProvidePlugin ([source])(https://webpack.docschina.org/plugins/provide-plugin/)
+* 2 webpack插件  [webpack.ProvidePlugin](https://webpack.docschina.org/plugins/provide-plugin/)
 ```javascript
 // webpack.config.js, 此配置只是把变量添加到当前文件的执行上下文，想要放到window下面，变量需要加上window.
 plugins: [
@@ -388,8 +387,7 @@ plugins: [
     })
 ]
 ```
-* 3 使用expose-loader
- ## expose-loader ([source])(https://webpack.docschina.org/loaders/expose-loader/)
+* 3 使用[expose-loader](https://webpack.docschina.org/loaders/expose-loader/)
 ```javascript
 // webpack.config.js ， 此配置是讲变量添加到window下
 module: {
