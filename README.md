@@ -20,6 +20,7 @@ npm run dev
 * 5 [使用图片](#demo5-05-img-source)
 * 6 [使用less](#demo6-06-less-source)
 * 7 [转义ES6、ES7、jsx](#demo7-07-babel-source)
+* 8 [sourceMap](#demo8-08-source-map-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -307,4 +308,24 @@ js中使用ES6语法
 const name = 'ES6';
 console.log(name);
 ```
+## demo8 08-source-map ([source](https://github.com/white-js/webpackDemos/tree/master/07-source-map))
+使用devtool生成sourcemap映射文件快速定位到错误文件
+devtool参数：
+source-map 把映射文件生成到单独的文件，最完整最慢
+cheap-module-source-map 在一个单独的文件中产生一个不带列映射的Map
+eval-source-map 使用eval打包源文件模块,在同一个文件中生成完整sourcemap
+cheap-module-eval-source-map sourcemap和打包后的JS同行显示，没有映射列
+增加配置：
+```javascript
+// webpack.config.js
+devtool: 'eval-source-map',
+```
+此时在js中调用一个不存在的方法a(),此时在控制台看到错误以后点击进去可以直接定位到对应的js文件中
+```javascript
+console.log('错误输出之前');
+a();
+console.log('错误之后');
+```
+
+
 
