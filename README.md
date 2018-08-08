@@ -18,7 +18,7 @@ npm run dev
 * 3 [使用css-loader](#demo3-03-cssloader-source)
 * 4 [css单独配置目录](#demo4-04-mini-css-extract-plugin-source)
 * 5 [使用图片](#demo5-05-img-source)
-
+* 6 [使用less](#demo6-06-less-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -252,6 +252,31 @@ html中的代码，和在html中使用图片
     <img src="./logo.png" style="width: 200px; height: 100px;"/>
 </div>
 ````
+## demo6 06-img ([source](https://github.com/white-js/webpackDemos/tree/master/06-less))
 
-
+使用less，以04-mini-css-extract-plugin为模板修改
+使用loader  less  less-loader
+```javascript
+// webpack.config.js中的修改
+test: /\.(le|c)ss$/,
+// 最后添加less-loader
+use: [miniCssExtractPlugin.loader, 'css-loader', 'less-loader']
+```
+```html
+<!-- index.html -->
+<body>
+    我是less
+</body>
+```
+```javascript
+// index.js
+import './index.less'
+```
+```css
+/* index.less */
+@color: red;
+body{
+    color: @color;
+}
+```
 
