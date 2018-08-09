@@ -24,6 +24,9 @@ npm run dev
 * 9 [css3增加前缀](#demo9-09-postcss-source)
 * 10 [打包第三方类库](#demo10-10-expose-source)
 * 11 [引入外部第三方库，但是不想webpack打包](#demo11-11-externals-source)
+* 12 [复制静态目录和打包前清空输出目录](#demo12-12-copy-and-clean-source)
+* 13 [本地服务和mode](#demo13-13-server-mode-source)
+* 14 [扩展名加载顺序、文件别名、全局常量、环境变量](#demo14-14-14-extensions-alias-define-env-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -414,11 +417,72 @@ externals: {
 // index.js
 // 可以在js中通过import 引入
 import $ from 'jquery'
-console.log($)
+console.log($);
 ```
 ```html
 <!-- index.html 在html中通过script引入外部资源-->
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+```
+
+## demo12 12-copy-and-clean ([source](https://github.com/white-js/webpackDemos/tree/master/12-copy-and-clean))
+如果你有些文件不需要被压缩打包，只希望拷贝到输出目录，那么用copy-webpack-plugin插件，如果你需要每次打包前都清空下输出目录来保证每次打包都是最新的文件，那么你需要用clean-webpack-plugin插件
+* 创建一个静态目录，assets，里面放上一些静态文件
+* 配置打包文件
+```javascript
+// webpack.config.js
+// 引入插件
+const copyWebpackPlugin = require('copy-webpack-plugin');
+const cleanWebpackPlugin = require('clean-webpack-plugin');
+// 使用插件
+ // 拷贝静态目录
+new copyWebpackPlugin([{
+    from: path.resolve(__dirname, 'assets'),
+    to: path.resolve(__dirname, 'dist/assets')
+}]),
+// 打包前清空输出目录
+new cleanWebpackPlugin([path.resolve(__dirname, 'dist')])
+```
+* 执行编译，查看dist目录的输出结果
+```bash
+num run build
+```
+
+## demo13 13-sever-mode ([source](https://github.com/white-js/webpackDemos/tree/master/13-sever-mode))
+待更新
+
+##demo14 14-extensions-alias-define-env ([source](https://github.com/white-js/webpackDemos/tree/master/14-extensions-alias-define-env))
+* 指定扩展名的解析顺序和设置别名
+* 创建test.css 和util/js/util.js
+```javascript
+// webpack.config.js
+resolve: {
+    // 指定解析顺序，指定的扩展在引入文件的时候可以不再写文件的扩展名
+    extensions: ['.js', '.css'],
+    // // 设置别名，在引入的时候可以通过别名使用 
+    alias: {
+        "util": './util/js/util.js',
+    }
+}
+// index.js 使用
+// 使用别名 精准匹配到./util/js/util.js
+import util from 'util';
+util.test
+// 使用扩展名配置 会引入test.css
+import 'test'
+```
+
+* 使用DefinePlugin设置全局常量
+* package.json中 通过依赖cross-env设置环境变量：cross-env NODE_ENV=production
+* cross-env解决window的兼容性问题
+```javascript
+// webpack.config.js
+new webpack.DefinePlugin({
+    PRODUCTION: JSON.stringify(true),
+    // 获取环境变量，并赋值给常量 NODE_ENV
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+})
+// index.js中使用
+console.log(PRODUCTION)
 ```
 
 
