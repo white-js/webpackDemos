@@ -15,6 +15,7 @@ npm run dev
 ## Index
 * 1 [入口和出口](#demo1-01-entry-output-source)
 * 2 [动态生成html](#demo2-02-html-source)
+* 2-1 [动态生成多个html入口](#demo2-02-html-more-source)
 * 3 [使用css-loader](#demo3-03-cssloader-source)
 * 4 [css单独配置目录](#demo4-04-mini-css-extract-plugin-source)
 * 5 [使用图片](#demo5-05-img-source)
@@ -120,6 +121,29 @@ devServer: {
     
 </body>
 </html>
+```
+## demo2 02-html-more ([source](https://github.com/white-js/webpackDemos/tree/master/02-html-more))
+生成多个html入口,使用chunks决定引入的js文件
+* 创建 index.js, index1.js, login.js和login.html
+```javascript
+plugins: [
+    new htmlWebpackPlugin({
+        // 引入的代码块
+        chunks: ['index', 'index1'],
+        // 入口模板文件
+        template: './index.html',
+        // 产出的文件名称
+        filename: 'index.html'
+    }),
+    new htmlWebpackPlugin({
+        // 引入的代码块
+        chunks: ['login'],
+        // 入口模板文件
+        template: './login.html',
+        // 产出的文件名称
+        filename: 'login.html'
+    })
+]
 ```
 
 ## demo3 03-cssLoader ([source](https://github.com/white-js/webpackDemos/tree/master/03-cssLoader))
