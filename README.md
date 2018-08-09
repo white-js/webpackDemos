@@ -25,8 +25,8 @@ npm run dev
 * 10 [打包第三方类库](#demo10-10-expose-source)
 * 11 [引入外部第三方库，但是不想webpack打包](#demo11-11-externals-source)
 * 12 [复制静态目录和打包前清空输出目录](#demo12-12-copy-and-clean-source)
-* 13 [本地服务和mode](#demo13-13-server-mode-source)
-* 14 [扩展名加载顺序、文件别名、全局常量、环境变量](#demo14-14-14-extensions-alias-define-env-source)
+* 13 [本地服务和mode](#demo13-13-sever-mode-source)
+* 14 [扩展名加载顺序、文件别名、全局常量、环境变量](#demo14-14-extensions-alias-define-env-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
