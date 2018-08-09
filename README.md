@@ -28,6 +28,7 @@ npm run dev
 * 12 [复制静态目录和打包前清空输出目录](#demo12-12-copy-and-clean-source)
 * 13 [本地服务和mode](#demo13-13-sever-mode-source)
 * 14 [扩展名加载顺序、文件别名、全局常量、环境变量](#demo14-14-extensions-alias-define-env-source)
+* 15 [webpack-merge打造公共模块，分离出开发环境和生产环境](#demo15-15-webpack-merge-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -509,5 +510,113 @@ new webpack.DefinePlugin({
 console.log(PRODUCTION)
 ```
 
+##demo15 15-webpack-merge ([source](https://github.com/white-js/webpackDemos/tree/master/15-webpack-merge))
 
+使用webpack-merge 产出基础配置base.config 和分离出来开发环境：env.config 生产环境 clent.config
+
+公共模块：一些基础配置
+```javascript
+// webpack.base.config.js
+const path = require("path");
+const webpack = require('webpack');
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
+/**
+ * 公共配置
+ * **/
+module.exports = {
+    entry: './index.js',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js',
+        publicPath: '/'
+    },
+    plugins: [
+        new htmlWebpackPlugin({
+            template: './index.html',
+            filename: 'index.html'
+        }),
+        // 给css单独配置目录
+        new miniCssExtractPlugin({
+            filename: 'style.css'
+        })
+    ],
+    externals: {
+        jquery: 'jQuery'
+    },
+    module:{
+        rules: [
+            {
+                // 要转义的对象
+                test: /\.css$/,
+                // 要使用的loader，解析顺序是从右往左
+                use: [miniCssExtractPlugin.loader, 'css-loader'],
+                // 排除需要转义的目录
+                exclude: /node_modules/,
+                // 要转义的目录
+                include: path.resolve(__dirname)
+            }
+        ]
+    },
+    resolve: {
+        // 指定解析顺序，指定的扩展在引入文件的时候可以不再写文件的扩展名
+        extensions: ['.js', '.css'],
+        // // 设置别名，在引入的时候可以通过别名使用 
+        alias: {
+            "util": './util/js/util.js',
+        }
+    }
+}
+```
+开发环境: 做本地服务以及mock服务sourceMap等，可以单独设置mode，以及环境变量process.env.NODE_ENV，这样就不用再再package.json里面写了
+```javascript
+// webpack.env.config.js
+const webpack = require('webpack');
+const path = require('path');
+const merge = require('webpack-merge');
+const base = require('./webpack.base.config.js');
+
+module.exports = merge(base, {
+    mode: 'development',
+    devServer: {
+        contentBase: path.resolve(__dirname, 'dist'),
+        host: 'localhost',
+        port: 9000,
+    },
+    devtool: 'eval-source-map',
+    plugins: [
+        new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(false),
+            'process.env.NODE_ENV': JSON.stringify('development')
+        })
+    ]
+})
+```
+生产环境：压缩我们的js、css代码
+```javascript
+// webpack.client.config.js
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const UglifyJSplugin = require('uglifyjs-webpack-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const base = require('./webpack.base.config.js');
+module.exports = merge(base, {
+    plugins: [
+        new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(true),
+            'process.env.NODE_ENV': JSON.stringify('development')
+        })
+    ],
+    optimization: {
+        minimizer: [            
+        new UglifyJSplugin({
+              cache: true,//启用缓存
+              parallel: true,// 使用多进程运行改进编译速度
+              sourceMap:true//生成sourceMap映射文件
+        }),
+        new OptimizeCssAssetsWebpackPlugin({})
+      ]    
+}
+})
+```
 
