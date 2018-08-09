@@ -22,7 +22,8 @@ npm run dev
 * 7 [转义ES6、ES7、jsx](#demo7-07-babel-source)
 * 8 [sourceMap](#demo8-08-source-map-source)
 * 9 [css3增加前缀](#demo9-09-postcss-source)
-* 9 [打包第三方类库](#demo10-10-expose-source)
+* 10 [打包第三方类库](#demo10-10-expose-source)
+* 11 [引入外部第三方库，但是不想webpack打包](#demo11-11-externals-source)
 ## demo1 01-entry-output ([source](https://github.com/white-js/webpackDemos/tree/master/01-entry-output))
 
 使用webpack-dev-server 启动本地服务，方便访问
@@ -379,7 +380,6 @@ import $4 from 'jquery'
 ```javascript
 // webpack.config.js, 此配置只是把变量添加到当前文件的执行上下文，想要放到window下面，变量需要加上window.
 plugins: [
-    // 方式1
     new webpack.ProvidePlugin({
         // 配置全局需要加上window
         'window.$': 'jquery',
@@ -389,9 +389,8 @@ plugins: [
 ```
 * 3 使用[expose-loader](https://webpack.docschina.org/loaders/expose-loader/)
 ```javascript
-// webpack.config.js ， 此配置是讲变量添加到window下
+// webpack.config.js ， 此配置是将变量添加到window下
 module: {
-    // 方式二
     rules: [{
         test: require.resolve('jquery'),
         use: [{
@@ -405,6 +404,22 @@ module: {
 }
 ```
 
+## demo11 11-externals ([source](https://github.com/white-js/webpackDemos/tree/master/11-externals))
+加载外部依赖的时候，防止将某些 import 的包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖，并且又不影响我们在程序中以CMD、AMD或者window/global全局等方式进行使用
+```javascript
+// webpack.config.js
+externals: {
+    jquery: 'jQuery'
+},
+// index.js
+// 可以在js中通过import 引入
+import $ from 'jquery'
+console.log($)
+```
+```html
+<!-- index.html 在html中通过script引入外部资源-->
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+```
 
 
 
