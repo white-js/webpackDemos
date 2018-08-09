@@ -475,7 +475,7 @@ num run build
 ## demo13 13-sever-mode ([source](https://github.com/white-js/webpackDemos/tree/master/13-sever-mode))
 待更新
 
-##demo14 14-extensions-alias-define-env ([source](https://github.com/white-js/webpackDemos/tree/master/14-extensions-alias-define-env))
+## demo14 14-extensions-alias-define-env ([source](https://github.com/white-js/webpackDemos/tree/master/14-extensions-alias-define-env))
 * 指定扩展名的解析顺序和设置别名
 * 创建test.css 和util/js/util.js
 ```javascript
@@ -510,7 +510,7 @@ new webpack.DefinePlugin({
 console.log(PRODUCTION)
 ```
 
-##demo15 15-webpack-merge ([source](https://github.com/white-js/webpackDemos/tree/master/15-webpack-merge))
+## demo15 15-webpack-merge ([source](https://github.com/white-js/webpackDemos/tree/master/15-webpack-merge))
 
 使用webpack-merge 产出基础配置base.config 和分离出来开发环境：env.config 生产环境 clent.config
 
