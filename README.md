@@ -21,6 +21,7 @@ npm run dev
 * 5 [使用图片](#demo5-05-img-source)
 * 6 [使用less](#demo6-06-less-source)
 * 7 [转义ES6、ES7、jsx](#demo7-07-babel-source)
+* 7-1 [压缩js、css](#demo7-07-optimize-babel-css-source)
 * 8 [sourceMap](#demo8-08-source-map-source)
 * 9 [css3增加前缀](#demo9-09-postcss-source)
 * 10 [打包第三方类库](#demo10-10-expose-source)
@@ -339,6 +340,30 @@ js中使用ES6语法
 const name = 'ES6';
 console.log(name);
 ```
+## demo7 07-optimize-babel-css ([source](https://github.com/white-js/webpackDemos/tree/master/07-optimize-babel-css))
+* 使用 插件uglifyjs-webpack-plugin optimize-css-assets-webpack-plugin压缩css和js
+* webpack4中优化相关的配置放到optimization中
+安装依赖：
+```bash uglifyjs-webpack-plugin optimize-css-assets-webpack-plugin -D
+npm i 
+```
+配置文件
+```javascript
+// webpack.config.js
+const UglifyJSplugin = require('uglifyjs-webpack-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+optimization: {
+    minimizer: [ 
+        new UglifyJSplugin({
+            cache: true,//启用缓存
+            parallel: true,// 使用多进程运行改进编译速度
+            sourceMap:true//生成sourceMap映射文件
+        }),
+        new OptimizeCssAssetsWebpackPlugin({})
+    ]
+},
+```
+
 ## demo8 08-source-map ([source](https://github.com/white-js/webpackDemos/tree/master/08-source-map))
 - 使用devtool生成sourcemap映射文件快速定位到错误文件
 - devtool参数：

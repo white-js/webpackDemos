@@ -12,12 +12,12 @@ module.exports = merge(base, {
     ],
     optimization: {
         minimizer: [            
-        new UglifyJSplugin({
-              cache: true,//启用缓存
-              parallel: true,// 使用多进程运行改进编译速度
-              sourceMap:true//生成sourceMap映射文件
-        }),
-        new OptimizeCssAssetsWebpackPlugin({})
-      ]    
-}
+            new UglifyJSplugin({
+                cache: true,//启用缓存
+                parallel: true,// 使用多进程运行改进编译速度
+                sourceMap:true//生成sourceMap映射文件
+            }),
+            new OptimizeCssAssetsWebpackPlugin({})
+        ]
+    }
 })
